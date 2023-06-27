@@ -30,6 +30,7 @@ lazy_static! {
             .as_str()
             .unwrap()
             .to_string();
+        println!("{}", connection_string);
         DbConnection {
             db_connection: PgPool::builder()
                 .max_size(8)
@@ -43,7 +44,7 @@ pub fn establish_connection() -> PooledConnection<ConnectionManager<PgConnection
     return DBCONNECTION.db_connection.get().unwrap();
 
     // no connection pool
-    // dotenv().ok();
+    // dotenv().ok();car
 
     // let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
 
