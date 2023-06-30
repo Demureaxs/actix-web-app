@@ -1,0 +1,11 @@
+run docker-compose up -d
+
+docker-compose down -v
+
+then follow up with diesel setup/ diesel migration run/redo/revert
+
+Make sure both ui and backend are running
+
+ensure there is no local instance of postgres running otherwise there will be a port conflict
+
+
