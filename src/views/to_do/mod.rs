@@ -1,7 +1,7 @@
-pub mod create;
-pub mod delete;
-pub mod edit;
-pub mod get;
+mod create;
+mod delete;
+mod edit;
+mod get;
 
 use actix_web::web::{delete, get, post, put, scope, ServiceConfig};
 

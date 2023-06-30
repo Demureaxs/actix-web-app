@@ -8,4 +8,6 @@ Make sure both ui and backend are running
 
 ensure there is no local instance of postgres running otherwise there will be a port conflict
 
+docker exec -it 8ee881e24121 psql -U postgres to_do
+
 
