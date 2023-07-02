@@ -33,6 +33,7 @@ async fn main() -> std::io::Result<()> {
             })
             .configure(views::views_factory)
             .wrap(cors);
+        println!("HTTP Server firing");
         return app;
     })
     .bind("127.0.0.1:8080")?
