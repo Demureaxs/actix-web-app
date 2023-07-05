@@ -1,3 +1,37 @@
-pub async fn login() -> String {
-    format!("Login View")
+use crate::diesel;
+use actix_web::{web, HttpResponse, Responder};
+use diesel::prelude::*;
+
+use crate::database::DB;
+use crate::json_serialization::login::Login;
+use crate::jwt::JwToken;
+use crate::models::user::user::User;
+use crate::schema::users;
+use std::collections::HashMap;
+
+pub async fn login(credentials: web::Json<Login>, db: DB) -> impl Responder {
+    let password = credentials.password.clone();
+    let users = users::table
+        .filter(users::columns::username.eq(credentials.username.clone()))
+        .load::<User>(&db.connection)
+        .unwrap();
+
+    if users.len() == 0 {
+        return HttpResponse::NotFound().await.unwrap();
+    } else if users.len() > 1 {
+        return HttpResponse::Conflict().await.unwrap();
+    }
+
+    match users[0].verify(password) {
+        true => {
+            let token = JwToken::new(users[0].id);
+            let raw_token = token.encode();
+            let mut body = HashMap::new();
+            body.insert("token", raw_token);
+            return HttpResponse::Ok().json(body);
+        }
+        false => {
+            return HttpResponse::Unauthorized().await.unwrap();
+        }
+    }
 }

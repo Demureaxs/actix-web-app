@@ -1,12 +1,14 @@
-use crate::database::establish_connection;
+use crate::database::DBCONNECTION;
+use crate::diesel;
 use crate::models::item::item::Item;
 use crate::schema::to_do;
 use diesel::prelude::*;
-extern crate diesel;
+
+use actix_web::{body::BoxBody, http::header::ContentType, HttpRequest, HttpResponse, Responder};
+
 use crate::to_do::structs::base::Base;
 use crate::to_do::ItemType;
 use crate::to_do::{enums::TaskStatus, to_do_factory};
-use actix_web::{body::BoxBody, http::header::ContentType, HttpRequest, HttpResponse, Responder};
 use serde::Serialize;
 use std::vec::Vec;
 
@@ -41,17 +43,19 @@ impl ToDoItems {
         };
     }
 
-    pub fn get_state() -> ToDoItems {
-        let mut connection = establish_connection();
-        let mut array_buffer = Vec::new();
+    pub fn get_state(user_id: i32) -> ToDoItems {
+        let connection = DBCONNECTION.db_connection.get().unwrap();
 
         let items = to_do::table
+            .filter(to_do::columns::user_id.eq(&user_id))
             .order(to_do::columns::id.asc())
-            .load::<Item>(&mut connection)
+            .load::<Item>(&connection)
             .unwrap();
 
+        let mut array_buffer = Vec::new();
+
         for item in items {
-            let status = TaskStatus::from_string(item.status.to_string());
+            let status = TaskStatus::from_string(item.status.as_str().to_string());
             let item = to_do_factory(&item.title, status);
 
             array_buffer.push(item);

@@ -1,7 +1,3 @@
-use diesel::insert_into;
-use diesel::pg::PgConnection;
-use diesel::prelude::*;
-
 use crate::schema::to_do;
 use chrono::{NaiveDateTime, Utc};
 

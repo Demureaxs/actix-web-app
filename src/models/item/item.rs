@@ -1,7 +1,6 @@
 use super::super::user::user::User;
 use crate::schema::to_do;
 use chrono::NaiveDateTime;
-use diesel::prelude::*;
 
 #[derive(Queryable, Identifiable, Associations)]
 #[belongs_to(User)]

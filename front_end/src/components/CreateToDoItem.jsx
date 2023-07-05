@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import '../App.css';
 
 class CreateToDoItem extends Component {
@@ -13,7 +13,7 @@ class CreateToDoItem extends Component {
                 'http://127.0.0.1:8080/v1/item/create/' + this.state.title,
                 {},
                 {
-                    headers: { token: 'some_token' },
+                    headers: { token: localStorage.getItem('user-token') },
                 }
             )
             .then((response) => {

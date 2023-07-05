@@ -1,8 +1,5 @@
 extern crate diesel;
 use diesel::prelude::*;
-use std::sync::{Arc, RwLock};
-
-use actix_web::HttpResponseBuilder;
 use actix_web::{web, HttpResponse, Responder};
 
 use crate::database::DB;
@@ -22,7 +19,7 @@ pub async fn create(new_user: web::Json<NewUserSchema>, db: DB) -> impl Responde
         .execute(&db.connection);
 
     match insert_result {
-        Ok(_) => HttpResponse::Created().finish(),
-        Err(_) => HttpResponse::Conflict().finish(),
+        Ok(_) => HttpResponse::Created(),
+        Err(_) => HttpResponse::Conflict(),
     }
 }

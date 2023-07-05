@@ -18,7 +18,3 @@ pub async fn items() -> HttpResponse {
         .content_type("text/html; charset=utf8")
         .body(html_data)
 }
-
-fn get_again() -> String {
-    "Hello".to_string()
-}

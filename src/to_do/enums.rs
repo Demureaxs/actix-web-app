@@ -7,6 +7,7 @@ pub enum TaskStatus {
     PENDING,
 }
 impl TaskStatus {
+    
     pub fn stringify(&self) -> String {
         match &self {
             &Self::DONE => "DONE".to_string(),
@@ -29,7 +30,11 @@ impl Serialize for TaskStatus {
         S: Serializer,
     {
         // this ensures each entry is serialized correctly.
-        serializer.serialize_str(&self.stringify())
+
+        // serializer.serialize_str(&self.stringify())
+        let mut s = serializer.serialize_struct("TaskStatus", 1)?;
+        s.serialize_field("status", &self.stringify())?;
+        s.end()
     }
 }
 
