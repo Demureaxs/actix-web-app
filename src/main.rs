@@ -5,6 +5,7 @@ extern crate dotenv;
 use actix_cors::Cors;
 use actix_service::Service;
 use actix_web::{App, HttpResponse, HttpServer};
+use futures::future::{Either, ok};
 
 mod config;
 mod database;
