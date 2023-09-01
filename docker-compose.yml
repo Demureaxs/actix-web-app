@@ -10,3 +10,9 @@ services:
       - 'POSTGRES_USER=postgres'
       - 'POSTGRES_DB=to_do'
       - 'POSTGRES_PASSWORD=password'
+  redis:
+    container_name: to_do-redis
+    image: "redis:5.0.5"
+    ports: 
+      - '6379:6379'
+    
